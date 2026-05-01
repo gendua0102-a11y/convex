@@ -9,6 +9,10 @@ permissions:
   pages: write
   id-token: write
 
+# This part tells GitHub to use Node 24 for all actions
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build_site:
     runs-on: ubuntu-latest
@@ -19,14 +23,13 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24 # Updated from 20 to 24
           cache: 'npm'
 
       - name: Install dependencies
         run: npm install
 
       - name: Build
-        # This VITE_CONVEX_URL comes from your GitHub Repo Variables
         run: npm run build
         env:
           VITE_CONVEX_URL: ${{ vars.VITE_CONVEX_URL }}
